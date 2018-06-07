@@ -10,12 +10,12 @@
 
 #define SIZE 512
 
-int reciveFile(int sockfd);
 char* getName(char* name);
 int getNameExtPos(char* name);
 int checkMD5(unsigned char* md1, FILE* fp);
 unsigned char* reciveMD5(int sockfd);
 
+/*
 int main(int argc, char* argv[])
 {
 	if(argc != 2){
@@ -27,6 +27,7 @@ int main(int argc, char* argv[])
 
 	return 0;
 }
+*/
 
 int reciveFile(int sockfd)
 {
