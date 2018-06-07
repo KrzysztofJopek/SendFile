@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 
+void printHelp();
 
 int main(int argc, char* argv[])
 {
@@ -19,6 +20,10 @@ int main(int argc, char* argv[])
 	char* ip = NULL;
 	int port = 1233;
 	char* filename;
+	if(argc < 3){
+		printHelp();
+		exit(0);
+	}
 
 	while((c = getopt(argc, argv, "i:p:SRscf:")) != -1){
 		switch(c){
@@ -106,4 +111,15 @@ int main(int argc, char* argv[])
 		reciveFile(sockfd);
 
 	return 0;
+}
+ 
+void printHelp(){
+	printf("Flags:\n");
+	printf("-s - run as TCP server\n");
+	printf("-c - run as TCP client\n\n");
+	printf("-S - send file\n");
+	printf("-R - receive file\n\n");
+	printf("-i IP - ip adress of the server\n");
+	printf("-p PORT - set port\n");
+	printf("-f FILENAME - name of the file to send\n");
 }
