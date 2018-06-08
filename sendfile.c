@@ -33,10 +33,11 @@ int main(int argc, char* argv[])
 				break;
 			case 'p':
 				port = atoi(optarg);
-				if(!port){
-					fprintf(stderr, "Use valid port\n");
+				if(port<1024 || port>65535){
+					fprintf(stderr, "Use valid port from range 1024-65535\n");
 					exit(2);
 				}
+				
 				break;
 			case 'S':
 				if(Rflag){
