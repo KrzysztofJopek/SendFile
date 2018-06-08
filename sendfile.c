@@ -41,28 +41,28 @@ int main(int argc, char* argv[])
 			case 'S':
 				if(Rflag){
 					fprintf(stderr, "You can't use R and S flag together\n");
-					exit(1);
+					exit(2);
 				}
 				Sflag++;
 				break;
 			case 'R':
 				if(Sflag){
 					fprintf(stderr, "You can't use R and S flag together\n");
-					exit(1);
+					exit(2);
 				}
 				Rflag++;
 				break;
 			case 's':
 				if(cflag){
 					fprintf(stderr, "You can't use s and c flag together\n");
-					exit(1);
+					exit(2);
 				}
 				sflag++;
 				break;
 			case 'c':
 				if(sflag){
 					fprintf(stderr, "You can't use s and c flag together\n");
-					exit(1);
+					exit(2);
 				}
 				cflag++;
 				break;
@@ -73,30 +73,30 @@ int main(int argc, char* argv[])
 			case '?':
 				if(optopt == 'i' || optopt == 'f'){
 					fprintf(stderr, "Option '-%c' requiers argument\n", optopt);
-					exit(3);
+					exit(2);
 				}
 				else{
 					fprintf(stderr, "Unknown option\n");
-					exit(3);
+					exit(2);
 				}
 		}
 				
 	}
 	if(!cflag && !sflag){
 		fprintf(stderr, "You have to specify server(-s) / client(-c)\n");
-		exit(4);
+		exit(2);
 	}
 	if(!Rflag && !Sflag){
 		fprintf(stderr, "You have to specify Send(-S) / Receive(-R)\n");
-		exit(4);
+		exit(2);
 	}
 	if(!iflag && cflag){
 		fprintf(stderr, "Client has to specify servers IP(-i IP)\n");
-		exit(4);
+		exit(2);
 	}
 	if(Sflag && !fflag){
 		fprintf(stderr, "Send option needs filename(-f FILENAME)\n");
-		exit(4);
+		exit(2);
 	}
 
 	int sockfd;
