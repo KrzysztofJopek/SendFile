@@ -12,30 +12,12 @@
 
 int sendName(int sockfd, char* name);
 int sendMD5(int sockfd, FILE* fp);
+int getNameFromPath(char* path, char* name);
 
-/*
-int main(int argc, char* argv[])
+
+int sendFile(int sockfd, char* path)
 {
-	if(argc != 5){
-		printf("Usage: %s IP PORT FILENAME\n", argv[0]);
-		return 1;
-	}
-	int sockfd;
-	if(strcmp(argv[4], "S")){
-		sockfd = startServer(atoi(argv[2]));
-	}
-	else{
-		sockfd = startClient(atoi(argv[2]), argv[1]);
-	}
-	sendFile(sockfd, argv[3]);
-
-	return 0;
-}
-*/
-
-int sendFile(int sockfd, char* name)
-{
-	FILE* fd = fopen(name, "r");
+	FILE* fd = fopen(path, "r");
 	if(!fd){
 		perror("Error: fopen");
 		return 2;
@@ -48,7 +30,7 @@ int sendFile(int sockfd, char* name)
 	
 	int read = 0;
 	//send filename, MD5 then file
-	if(sendName(sockfd, name) < 0){
+	if(sendName(sockfd, path) < 0){
 		perror("Error: sendName");
 		return -1;
 	}
@@ -75,15 +57,17 @@ int sendFile(int sockfd, char* name)
 	return 1;
 }
 
-int sendName(int sockfd, char* name)
+//conver path to name and send it throught socket
+int sendName(int sockfd, char* path)
 {
 	char* sname = (char*)calloc(sizeof(char), PATH_MAX);
-	strcpy(sname, name);
+	getNameFromPath(path, sname);
 	int res = send(sockfd, sname, PATH_MAX*sizeof(char), 0);
 	free(sname);
 	return res;
 }
 
+//calculate MD5 and send it throught socket
 int sendMD5(int sockfd, FILE* fp)
 {
 	unsigned char* md = getMD5(fp);
@@ -92,3 +76,19 @@ int sendMD5(int sockfd, FILE* fp)
 	free(md);
 	return res;
 }
+
+int getNameFromPath(char* path, char* name)
+{
+	char* c = path;
+	int pos=-1;
+	int i=0;
+	for(; *c; i++){
+		if(*c++ == '/')
+			pos=i;
+	}
+	if(path[pos+1] != '\0'){
+		strcpy(name, path+pos+1);
+	}
+	return 0;
+}
+
