@@ -15,19 +15,6 @@ int getNameExtPos(char* name);
 int checkMD5(unsigned char* md1, FILE* fp);
 unsigned char* reciveMD5(int sockfd);
 
-/*
-int main(int argc, char* argv[])
-{
-	if(argc != 2){
-		printf("Usage: %s PORT\n", argv[0]);
-		return 1;
-	}
-	int sockfd = startServer(atoi(argv[1]));
-	reciveFile(sockfd);
-
-	return 0;
-}
-*/
 
 int reciveFile(int sockfd)
 {
@@ -72,6 +59,7 @@ int reciveFile(int sockfd)
 	return 1;
 }
 
+//returns filenam(name+suffix) which is unical in given catalog
 char* getName(char* name)
 {
 	char* buff = (char*)calloc(sizeof(char), PATH_MAX+1);
